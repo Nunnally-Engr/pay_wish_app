@@ -141,13 +141,6 @@ class _RootPageState extends State<RootPage> {
           onSignUp: () => _updateAuthStatus(AuthStatus.signedUp),
         );
       case AuthStatus.signedIn:
-        // print('■ ダッシュボード');
-        // // ダッシュボードページ
-        // return new Dashboard(
-        //   auth: widget.auth,
-        //   onSignOut: () => _updateAuthStatus(AuthStatus.notSignedIn),
-        //   currentPageClaimSet: () => _updateCurrentPage(CurrentPage.claim)
-        // );
         switch (currentPage) {
           case CurrentPage.claim:
             print('■ 請求画面');
