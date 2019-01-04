@@ -71,8 +71,8 @@ class _DateTimePicker extends StatelessWidget {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2015, 8),
-      lastDate: DateTime(2101)
+      firstDate: DateTime.now().add(new Duration(days: -365)),
+      lastDate: DateTime.now().add(new Duration(days: 365))
     );
     if (picked != null && picked != selectedDate)
       selectDate(picked);
@@ -103,11 +103,10 @@ class _ClaimState extends State<Claim> {
 
   String _buyUid = '';
   String _billingUid = '';
-  String _buyDate = ''; // 支払日
+  DateTime _buyDate = DateTime.now(); // 購入日
   String _buyItem = ''; // 商品
   String _authHint = '';
 
-  DateTime _fromDate = DateTime.now();
 
   void _signOut() async {
     try {
@@ -146,22 +145,23 @@ class _ClaimState extends State<Claim> {
       try {
 
         print('>>> Click：onPressdClaimCreate');
-        final dynamic resp = await CloudFunctions.instance.call(
-                                functionName: 'onCallClaimsCreate',
-                                parameters: <String, String> {
-                                  'buy_uid': _buyUid,
-                                  'buy_date': '2018-12-10',
-                                  'buy_item': _buyItem,
-                                  'buy_amount': '2100',
-                                  'pay_method': 'デビットカード',
-                                  'pay_status': '未',
-                                  'billing_amount': '750',
-                                  'billing_uid': _billingUid,
-                                  'created_at': '2018-12-12',
-                                  'updated_at': '2018-12-12'
-                                },
-                              );
-        print(resp);
+        print(_buyDate);
+        // final dynamic resp = await CloudFunctions.instance.call(
+        //                         functionName: 'onCallClaimsCreate',
+        //                         parameters: <String, String> {
+        //                           'buy_uid': _buyUid,
+        //                           'buy_date': '2018-12-10',
+        //                           'buy_item': _buyItem,
+        //                           'buy_amount': '2100',
+        //                           'pay_method': 'デビットカード',
+        //                           'pay_status': '未',
+        //                           'billing_amount': '750',
+        //                           'billing_uid': _billingUid,
+        //                           'created_at': '2018-12-12',
+        //                           'updated_at': '2018-12-12'
+        //                         },
+        //                       );
+        // print(resp);
 
       }
       catch (e) {
@@ -187,10 +187,10 @@ class _ClaimState extends State<Claim> {
       padded(child: new _DateTimePicker(
         key: new Key('購入日'),
         labelText: '購入日',
-        selectedDate: _fromDate,
+        selectedDate: _buyDate,
         selectDate: (DateTime date) {
           setState(() {
-            _fromDate = date;
+            _buyDate = date;
           });
         }
       )),
