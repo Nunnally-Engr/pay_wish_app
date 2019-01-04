@@ -107,8 +107,22 @@ class _ClaimState extends State<Claim> {
   DateTime _buyDate = DateTime.now(); // 購入日
   String _buyItem = '';               // 商品
   String _buyAmount = '';             // 購入金額
+  List _payMethods = ["現金", "デビット", "交通系IC", "クレジット", "ポイント", "その他"];
+  String _currentPayMethod;
+
   String _authHint = '';
 
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String city in _payMethods) {
+      items.add(new DropdownMenuItem(
+          value: city,
+          child: new Text(city)
+      ));
+    }
+    return items;
+  }
 
   void _signOut() async {
     try {
@@ -135,6 +149,13 @@ class _ClaimState extends State<Claim> {
     return false;
   }
   
+  // 支払方法変更処理
+  void changedDropDownItem(String selectedPayMethod) {
+    setState(() {
+      _currentPayMethod = selectedPayMethod;
+    });
+  }
+
   // 登録ボタン
   void onPressdClaimCreate() async {
 
@@ -148,7 +169,9 @@ class _ClaimState extends State<Claim> {
 
         print('>>> Click：onPressdClaimCreate');
         print(_buyDate);
+        print(_buyItem);
         print(_buyAmount);
+        print(_currentPayMethod);
         // final dynamic resp = await CloudFunctions.instance.call(
         //                         functionName: 'onCallClaimsCreate',
         //                         parameters: <String, String> {
@@ -203,6 +226,12 @@ class _ClaimState extends State<Claim> {
         validator: (val) => val.isEmpty ? '購入金額を入力してください' : null,
         onSaved: (val) => _buyAmount = val,
         keyboardType: TextInputType.number
+      )),
+      padded(child: new DropdownButton(
+        key: new Key('支払方法'),
+        value: _currentPayMethod,
+        items: getDropDownMenuItems(),
+        onChanged: changedDropDownItem
       )),
       padded(child: new TextFormField(
         key: new Key('請求先'),
