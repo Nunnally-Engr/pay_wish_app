@@ -55,6 +55,7 @@ class _InputDropdown extends StatelessWidget {
   }
 }
 
+// 購入日：日付Picker
 class _DateTimePicker extends StatelessWidget {
   const _DateTimePicker({
     Key key,
@@ -104,7 +105,8 @@ class _ClaimState extends State<Claim> {
   String _buyUid = '';
   String _billingUid = '';
   DateTime _buyDate = DateTime.now(); // 購入日
-  String _buyItem = ''; // 商品
+  String _buyItem = '';               // 商品
+  String _buyAmount = '';             // 購入金額
   String _authHint = '';
 
 
@@ -146,6 +148,7 @@ class _ClaimState extends State<Claim> {
 
         print('>>> Click：onPressdClaimCreate');
         print(_buyDate);
+        print(_buyAmount);
         // final dynamic resp = await CloudFunctions.instance.call(
         //                         functionName: 'onCallClaimsCreate',
         //                         parameters: <String, String> {
@@ -176,14 +179,6 @@ class _ClaimState extends State<Claim> {
   // 入力フォーム
   List<Widget> inputForm() {
     return [
-      padded(child: new TextFormField(
-        key: new Key('購入者'),
-        decoration: new InputDecoration(labelText: '購入者'),
-        autocorrect: false,
-        initialValue: _buyUid,
-        validator: (val) => val.isEmpty ? '購入者を入力してください' : null,
-        onSaved: (val) => _buyUid = val,
-      )),
       padded(child: new _DateTimePicker(
         key: new Key('購入日'),
         labelText: '購入日',
@@ -200,6 +195,14 @@ class _ClaimState extends State<Claim> {
         autocorrect: false,
         validator: (val) => val.isEmpty ? '購入品を入力してください' : null,
         onSaved: (val) => _buyItem = val,
+      )),
+      padded(child: new TextFormField(
+        key: new Key('購入金額'),
+        decoration: new InputDecoration(labelText: '購入金額'),
+        autocorrect: false,
+        validator: (val) => val.isEmpty ? '購入金額を入力してください' : null,
+        onSaved: (val) => _buyAmount = val,
+        keyboardType: TextInputType.number
       )),
       padded(child: new TextFormField(
         key: new Key('請求先'),
