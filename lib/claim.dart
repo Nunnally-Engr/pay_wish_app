@@ -227,11 +227,16 @@ class _ClaimState extends State<Claim> {
         onSaved: (val) => _buyAmount = val,
         keyboardType: TextInputType.number
       )),
-      padded(child: new DropdownButton(
-        key: new Key('支払方法'),
-        value: _currentPayMethod,
-        items: getDropDownMenuItems(),
-        onChanged: changedDropDownItem
+      padded(child: new DropdownButtonHideUnderline(
+        child: new ButtonTheme(
+        alignedDropdown: true,
+        child: new DropdownButton(
+            key: new Key('支払方法'),
+            value: _currentPayMethod,
+            items: getDropDownMenuItems(),
+            onChanged: changedDropDownItem,
+          )
+        )
       )),
       padded(child: new TextFormField(
         key: new Key('請求先'),
