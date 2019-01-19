@@ -11,6 +11,7 @@ abstract class BaseUsers {
 
   Future<void> create(String uid, String displayName);
   Future<void> update(String uid);
+  Future<Map> select(String uid);
 }
 
 class Users implements BaseUsers {
@@ -42,5 +43,10 @@ class Users implements BaseUsers {
     });
   }
 
+  Future<Map> select(String uid) async {
 
+    var db = Firestore.instance;
+    DocumentSnapshot user = await db.collection("users").document(uid).get();
+    return user.data;
+  }
 }
