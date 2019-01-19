@@ -38,7 +38,7 @@ class Auth implements BaseAuth {
     user.updateProfile(info);
 
     // Usersテーブル作成
-    await _users.create(user.uid);
+    await _users.create(user.uid, displayName);
 
     return user.uid;
   }
