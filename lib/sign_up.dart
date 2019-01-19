@@ -72,6 +72,30 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  // 画像
+  List<Widget> photoImage() {
+    return [
+      padded(child: new Center(
+        child: GestureDetector(
+          child: Stack(
+            alignment: const Alignment(0.6, 0.6),
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.blueGrey,
+                // TODO: URL参照して画像を表示する場合（CloudStorage等）
+                // backgroundImage: NetworkImage('https://〜/*****.jpg'),
+                backgroundImage: AssetImage('images/default.png'),
+                radius: 50
+              ),
+              Icon(Icons.camera_alt)
+            ],
+          ),
+          onTap: () => ''
+        )
+      )),
+    ];
+  }
+
   // 入力フォーム
   List<Widget> usernameAndPassword() {
     return [
@@ -151,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                         key: formKey,
                         child: new Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: usernameAndPassword() + submitWidgets(),
+                          children: photoImage() + usernameAndPassword() + submitWidgets(),
                         )
                     )
                 ),

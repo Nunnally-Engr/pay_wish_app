@@ -19,7 +19,7 @@ class Dashboard extends StatelessWidget {
     // ======================
     // 表示名取得
     // ======================
-    Future<String> _getCurrentUserId() async {
+    Future<String> _getDisplayName() async {
 
       String uid = await auth.currentUser();
       Map user = await _users.select(uid);
@@ -85,8 +85,10 @@ class Dashboard extends StatelessWidget {
             child: Center(
                 child: GestureDetector(
                   child: CircleAvatar(
-                    backgroundColor: Colors.yellow,
-                    backgroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1068308607953858560/u2m2ti3P_400x400.jpg'),
+                    backgroundColor: Colors.blueGrey,
+                    // TODO: URL参照して画像を表示する場合（CloudStorage等）
+                    // backgroundImage: NetworkImage('https://〜/*****.jpg'),
+                    backgroundImage: AssetImage('images/default.png'),
                     radius: 50
                   ),
                 onTap: () => ''
@@ -94,11 +96,11 @@ class Dashboard extends StatelessWidget {
             )
           ),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(5.0),
             child: Center(
               child: 
                 FutureBuilder(
-                future: _getCurrentUserId(),
+                future: _getDisplayName(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return Text(snapshot.data.toString(), style: descTextStyle);
